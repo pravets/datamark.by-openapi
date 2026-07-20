@@ -1,0 +1,42 @@
+name: Deploy API Docs
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'openapi/**'
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate OpenAPI spec (soft)
+        continue-on-error: true
+        run: |
+          npx @scalar/cli document validate openapi/openapi_datamark_v3.yaml --no-color || true
+
+      - name: Prepare dist
+        run: |
+          mkdir -p dist
+          cp openapi/*.yaml dist/
+          cp docs/*.html dist/
+          touch dist/.nojekyll
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
