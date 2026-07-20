@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API маркировки и оборота товаров — ГИС «Электронный знак»</title>
+</head>
+<body style="margin: 0;">
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+  <script>
+    Scalar.createApiReference('#app', {
+      url: './openapi_datamark_v3.yaml',
+      theme: 'default',
+      metaData: {
+        title: 'API маркировки и оборота товаров — ГИС «Электронный знак»',
+        description: 'Спецификация API ГИС «Электронный знак» (datamark.by). Web-сервис межсистемного взаимодействия, редакция 4.25.',
+      },
+    })
+  </script>
+</body>
+</html>
