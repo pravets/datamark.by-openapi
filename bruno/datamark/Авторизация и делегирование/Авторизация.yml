@@ -1,0 +1,85 @@
+info:
+  name: Авторизация
+  type: http
+  seq: 1
+  tags:
+    - Авторизация и делегирование
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Успешная авторизация
+    request:
+      url: "{{baseUrl}}/auth"
+      method: POST
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "token": "eyJhbGciOiJFUzI1NiIsInR8cCI6IkpXVCJ9.eyJleHAiOjE3NTg3MDQ1MjIsImlhdCI6MTc1ODcwMzMyMn0.fC8PI-FTaCr5DjlDowGvyZtEiDmn6WttOR2gEQXUPTSb42DLK",
+            "token_refresh": "eyJhbGci1iJFUzI1NiIsInR5cCI6IkpXVCJ6.eyJleHAiOjE3NTkzMDgxMjIsImlhdCI6MTc1ODcwMzMyMn0.Jry66MVmJDbxNe3nt1KAiTus_8nSH1rs_kiwgk6FX2udEczteD",
+            "user": {
+              "email": "matohasvitok@bbv.by",
+              "expires_in": "2023-05-24 11:21:37",
+              "id": 507,
+              "info": {
+                "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                "country": "112",
+                "email": "info@bbv.by",
+                "gln": "4811612900000",
+                "id": 129,
+                "is_partly_blocked": false,
+                "is_rules_agree": true,
+                "name": "СООО \"Свиток\"",
+                "status": 1,
+                "substituted": false,
+                "unp": "190704463"
+              },
+              "info_id": 129,
+              "lastname": "Матоха",
+              "name": "Валерий",
+              "need_change_password": false,
+              "role": {
+                "code": "exporter",
+                "description": "Участник оборота товаров"
+              },
+              "status": 1
+            }
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса (см. раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/auth"
+      method: POST
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Авторизация пользователя в ГИС «Электронный знак». Возвращает токен авторизации, резервный токен авторизации и данные авторизованного пользователя. Согласно документу, заголовок HTTP-запроса Content-Type допускает три варианта: multipart/form-data; boundary=..., application/x-www-form-urlencoded, application/json; charset=utf-8."

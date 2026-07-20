@@ -1,0 +1,455 @@
+info:
+  name: Список заказов (GET)
+  type: http
+  seq: 10
+  tags:
+    - Заказы кодов маркировки
+
+http:
+  method: GET
+  url: "{{baseUrl}}/v3/orders/list"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  params:
+    - name: page
+      value: ""
+      type: query
+      description: Номер страницы перечня заказов
+      disabled: true
+    - name: page_size
+      value: "15"
+      type: query
+      description: "Число записей на странице. Примечание: Максимум – до 200, по умолчанию – до 15 на 1 страницу"
+    - name: ordering
+      value: created_at
+      type: query
+      description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+      disabled: true
+    - name: ordering
+      value: -created_at
+      type: query
+      description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+      disabled: true
+    - name: ordering
+      value: id
+      type: query
+      description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+      disabled: true
+    - name: ordering
+      value: -id
+      type: query
+      description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+      disabled: true
+    - name: start_date
+      value: ""
+      type: query
+      description: "Начальная дата интервала. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: end_date
+      value: ""
+      type: query
+      description: "Конечная дата интервала. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: start_completed_at
+      value: ""
+      type: query
+      description: "Начальная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные после указанной даты"
+      disabled: true
+    - name: end_completed_at
+      value: ""
+      type: query
+      description: "Конечная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные до указанной даты"
+      disabled: true
+    - name: gtin
+      value: ""
+      type: query
+      description: GTIN товара, на который сформирован заказ КМ
+      disabled: true
+    - name: type_id
+      value: ""
+      type: query
+      description: Тип кода. ID кода, полученный из метода /labels/types (см. п. 3.4.3; перечень значений приведен таблице 4.2.2.2)
+      disabled: true
+    - name: search
+      value: "2000488178"
+      type: query
+      description: Номер заказа. ID заказа, по которому осуществляется поиск в списке
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Вариант 1. Отбор по параметрам
+    request:
+      url: "{{baseUrl}}/v3/orders/list"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: page
+          value: ""
+          type: query
+          description: Номер страницы перечня заказов
+          disabled: true
+        - name: page_size
+          value: "15"
+          type: query
+          description: "Число записей на странице. Примечание: Максимум – до 200, по умолчанию – до 15 на 1 страницу"
+        - name: ordering
+          value: created_at
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: -created_at
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: id
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: -id
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: start_date
+          value: ""
+          type: query
+          description: "Начальная дата интервала. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_date
+          value: ""
+          type: query
+          description: "Конечная дата интервала. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: start_completed_at
+          value: ""
+          type: query
+          description: "Начальная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные после указанной даты"
+          disabled: true
+        - name: end_completed_at
+          value: ""
+          type: query
+          description: "Конечная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные до указанной даты"
+          disabled: true
+        - name: gtin
+          value: ""
+          type: query
+          description: GTIN товара, на который сформирован заказ КМ
+          disabled: true
+        - name: type_id
+          value: ""
+          type: query
+          description: Тип кода. ID кода, полученный из метода /labels/types (см. п. 3.4.3; перечень значений приведен таблице 4.2.2.2)
+          disabled: true
+        - name: search
+          value: "2000488178"
+          type: query
+          description: Номер заказа. ID заказа, по которому осуществляется поиск в списке
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "next": null,
+            "previous": "http://api.datamark.by/v3/orders/list?end_date=2024-11-29&start_date=2024-11-29",
+            "results": [
+              {
+                "comment": "Короткий КМ",
+                "completed_at": "2024-11-30T13:00:31.219103",
+                "count": 5,
+                "created_at": "2024-11-29T20:25:26.699655",
+                "files": {
+                  "labels": {
+                    "downloads": 0,
+                    "filename": "507-2024-11-29-21-5-15-RWSyGE"
+                  }
+                },
+                "group": {
+                  "code": "dietary_supplements",
+                  "name": "БАД и спортивное питание"
+                },
+                "gtin": 625273050882,
+                "id": 2000488179,
+                "item": {
+                  "articul": "",
+                  "gtin": 625273050882,
+                  "name": "БИОЛОГИЧЕСКИ АКТИВНАЯ ДОБАВКА"
+                },
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": {
+                  "id": 7,
+                  "name": "Код стран ЕАЭС идентификации товара"
+                },
+                "updated_at": "2024-11-30T13:00:31.219103",
+                "user": {
+                  "email": "matohasvitok@bbv.by",
+                  "lastname": "Матоха",
+                  "name": "Валерий"
+                },
+                "user_id": 507,
+                "user_info": {
+                  "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                  "country": "112",
+                  "gln": "4811612900000",
+                  "is_rules_agree": true,
+                  "name": "СООО \"Свиток\"",
+                  "unp": "190704463"
+                },
+                "user_info_id": 129
+              }
+            ]
+          }
+  - name: Вариант 2. Поиск по номеру заказа
+    request:
+      url: "{{baseUrl}}/v3/orders/list"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: page
+          value: ""
+          type: query
+          description: Номер страницы перечня заказов
+          disabled: true
+        - name: page_size
+          value: "15"
+          type: query
+          description: "Число записей на странице. Примечание: Максимум – до 200, по умолчанию – до 15 на 1 страницу"
+        - name: ordering
+          value: created_at
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: -created_at
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: id
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: -id
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: start_date
+          value: ""
+          type: query
+          description: "Начальная дата интервала. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_date
+          value: ""
+          type: query
+          description: "Конечная дата интервала. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: start_completed_at
+          value: ""
+          type: query
+          description: "Начальная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные после указанной даты"
+          disabled: true
+        - name: end_completed_at
+          value: ""
+          type: query
+          description: "Конечная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные до указанной даты"
+          disabled: true
+        - name: gtin
+          value: ""
+          type: query
+          description: GTIN товара, на который сформирован заказ КМ
+          disabled: true
+        - name: type_id
+          value: ""
+          type: query
+          description: Тип кода. ID кода, полученный из метода /labels/types (см. п. 3.4.3; перечень значений приведен таблице 4.2.2.2)
+          disabled: true
+        - name: search
+          value: "2000488178"
+          type: query
+          description: Номер заказа. ID заказа, по которому осуществляется поиск в списке
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "next": null,
+            "previous": null,
+            "results": [
+              {
+                "comment": "Длинный КМ",
+                "completed_at": "2024-11-30T13:00:14.554352",
+                "count": 5,
+                "created_at": "2024-11-29T20:25:26.699534",
+                "files": {
+                  "labels": {
+                    "downloads": 0,
+                    "filename": "507-2024-11-29-21-5-15-jIZvHp"
+                  }
+                },
+                "group": {
+                  "code": "dietary_supplements",
+                  "name": "БАД и спортивное питание"
+                },
+                "gtin": 4812845008808,
+                "id": 2000488178,
+                "item": {
+                  "articul": "№1",
+                  "gtin": 4812845008808,
+                  "name": "Биологически активные добавки (БАД)"
+                },
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": {
+                  "id": 7,
+                  "name": "Код стран ЕАЭС идентификации товара"
+                },
+                "updated_at": "2024-11-30T13:00:14.554352",
+                "user": {
+                  "email": "matohasvitok@bbv.by",
+                  "lastname": "Матоха",
+                  "name": "Валерий"
+                },
+                "user_id": 507,
+                "user_info": {
+                  "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                  "country": "112",
+                  "gln": "4811612900000",
+                  "is_rules_agree": true,
+                  "name": "Предприятие РБ для тестирования",
+                  "unp": "190704463"
+                },
+                "user_info_id": 129
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/orders/list"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: page
+          value: ""
+          type: query
+          description: Номер страницы перечня заказов
+          disabled: true
+        - name: page_size
+          value: "15"
+          type: query
+          description: "Число записей на странице. Примечание: Максимум – до 200, по умолчанию – до 15 на 1 страницу"
+        - name: ordering
+          value: created_at
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: -created_at
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: id
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: ordering
+          value: -id
+          type: query
+          description: "Условия сортировки данных: created_at – по возрастанию даты и времени создания; -created_at – по убыванию даты и времени создания; id – по возрастанию номера (идентификатора) заказа; -id – по убыванию номера (идентификатора) заказа"
+          disabled: true
+        - name: start_date
+          value: ""
+          type: query
+          description: "Начальная дата интервала. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_date
+          value: ""
+          type: query
+          description: "Конечная дата интервала. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: start_completed_at
+          value: ""
+          type: query
+          description: "Начальная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные после указанной даты"
+          disabled: true
+        - name: end_completed_at
+          value: ""
+          type: query
+          description: "Конечная дата выполнения заказов. Формат: YYYY-MM-DD Примечание: Выводятся заказы, завершенные до указанной даты"
+          disabled: true
+        - name: gtin
+          value: ""
+          type: query
+          description: GTIN товара, на который сформирован заказ КМ
+          disabled: true
+        - name: type_id
+          value: ""
+          type: query
+          description: Тип кода. ID кода, полученный из метода /labels/types (см. п. 3.4.3; перечень значений приведен таблице 4.2.2.2)
+          disabled: true
+        - name: search
+          value: "2000488178"
+          type: query
+          description: Номер заказа. ID заказа, по которому осуществляется поиск в списке
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: |
+  Метод «Список заказов» (п. 3.3.3). Представление Б — версия API v3
+  (п. 3.3.3.2), фильтры передаются в строке запроса, ответ пагинирован
+  (next / previous / results).
+  Представление А (п. 3.3.3.1) — POST /orders/list.
+  Примеры строки запроса из документа:
+  отбор по параметрам: /v3/orders/list?page=2&ordering=-created_at&start_date=2024-11-29&end_date=2024-11-29&type_id=7
+  поиск по номеру заказа: /v3/orders/list?search=2000488178

@@ -1,0 +1,258 @@
+info:
+  name: Информация о заказе (GET)
+  type: http
+  seq: 11
+  tags:
+    - Заказы кодов маркировки
+
+http:
+  method: GET
+  url: "{{baseUrl}}/v3/orders/list/:id"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  params:
+    - name: id
+      value: "2000488178"
+      type: path
+      description: "Номер заказа. ID заказа, полученный из методов /v3/orders/add (см. п. 3.3.1.2), /v3/orders/addGroupOrders (см. п. 3.3.4.2) или /v3/labels/addAggregate (см. п. 3.4.1.2). Пример строки запроса: /v3/orders/list/2000488178"
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Вариант 1. Информация о заказе кодов маркировки
+    request:
+      url: "{{baseUrl}}/v3/orders/list/:id"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: id
+          value: "2000488178"
+          type: path
+          description: "Номер заказа. ID заказа, полученный из методов /v3/orders/add (см. п. 3.3.1.2), /v3/orders/addGroupOrders (см. п. 3.3.4.2) или /v3/labels/addAggregate (см. п. 3.4.1.2). Пример строки запроса: /v3/orders/list/2000488178"
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "detail": {
+              "comment": "Длинный КМ",
+              "completed_at": "2024-11-30T13:00:14.554352",
+              "count": 5,
+              "created_at": "2024-11-29T20:25:26.699534",
+              "files": {
+                "labels": {
+                  "downloads": 0,
+                  "filename": "507-2024-11-29-21-5-15-jIZvHp"
+                }
+              },
+              "group": {
+                "code": "dietary_supplements",
+                "name": "БАД и спортивное питание"
+              },
+              "gtin": {
+                "articul": "№1",
+                "gtin": 4812845008808,
+                "name": "Биологически активные добавки (БАД)"
+              },
+              "id": 2000488178,
+              "status": {
+                "code": 30,
+                "message": "Выполнен"
+              },
+              "type": {
+                "id": 7,
+                "name": "Код стран ЕАЭС идентификации товара"
+              },
+              "updated_at": "2024-11-30T13:00:14.554352",
+              "user": {
+                "email": "matohasvitok@bbv.by",
+                "lastname": "Матоха",
+                "name": "Валерий"
+              },
+              "user_info": {
+                "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                "country": "112",
+                "gln": "4811612900000",
+                "is_rules_agree": true,
+                "name": "СООО \"Свиток\"",
+                "unp": "190704463"
+              }
+            }
+          }
+  - name: Вариант 3. Информация о заказе на регистрацию собственных кодов агрегации
+    request:
+      url: "{{baseUrl}}/v3/orders/list/:id"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: id
+          value: "2000488178"
+          type: path
+          description: "Номер заказа. ID заказа, полученный из методов /v3/orders/add (см. п. 3.3.1.2), /v3/orders/addGroupOrders (см. п. 3.3.4.2) или /v3/labels/addAggregate (см. п. 3.4.1.2). Пример строки запроса: /v3/orders/list/2000488178"
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "detail": {
+              "comment": null,
+              "completed_at": "2025-01-13T10:00:57.845822",
+              "count": 6,
+              "created_at": "2025-01-13T10:00:57.734920",
+              "files": {
+                "labels": {
+                  "downloads": 1,
+                  "filename": "507-2025-1-13-10-0-57-tclzov"
+                },
+                "labels_error": {
+                  "downloads": 1,
+                  "filename": "507-2025-1-13-10-0-57-tclzov_bad_aggregates"
+                }
+              },
+              "id": 2000489512,
+              "status": {
+                "code": 30,
+                "message": "Выполнен"
+              },
+              "type": {
+                "id": 13,
+                "name": "Код агрегации(импорт)"
+              },
+              "updated_at": "2025-01-13T10:00:57.845818",
+              "user": {
+                "email": "matohasvitok@bbv.by",
+                "lastname": "Матоха",
+                "name": "Валерий"
+              },
+              "user_info": {
+                "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                "country": "112",
+                "gln": "4811612900000",
+                "is_rules_agree": true,
+                "name": "СООО \"Свиток\"",
+                "unp": "190704463"
+              }
+            }
+          }
+  - name: Вариант 2. Информация о заказе кодов агрегации формата SSCC
+    request:
+      url: "{{baseUrl}}/v3/orders/list/:id"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: id
+          value: "2000488178"
+          type: path
+          description: "Номер заказа. ID заказа, полученный из методов /v3/orders/add (см. п. 3.3.1.2), /v3/orders/addGroupOrders (см. п. 3.3.4.2) или /v3/labels/addAggregate (см. п. 3.4.1.2). Пример строки запроса: /v3/orders/list/2000488178"
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "detail": {
+              "comment": "Заказ кодов SSCC в количестве 12 (двенадцати) единиц",
+              "completed_at": "2025-01-13T11:56:58.535544",
+              "count": 12,
+              "created_at": "2025-01-13T11:56:58.242603",
+              "files": {
+                "labels": {
+                  "downloads": 1,
+                  "filename": "507-2025-1-13-11-56-58-ntJXgE"
+                }
+              },
+              "id": 2000489528,
+              "status": {
+                "code": 30,
+                "message": "Выполнен"
+              },
+              "type": {
+                "id": 6,
+                "name": "Код агрегации (SSCC)"
+              },
+              "updated_at": "2025-01-13T11:56:58.535544",
+              "user": {
+                "email": "matohasvitok@bbv.by",
+                "lastname": "Матоха",
+                "name": "Валерий"
+              },
+              "user_info": {
+                "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                "country": "112",
+                "gln": "4811612900000",
+                "is_rules_agree": true,
+                "name": "СООО \"Свиток\"",
+                "unp": "90704463"
+              }
+            }
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/orders/list/:id"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: id
+          value: "2000488178"
+          type: path
+          description: "Номер заказа. ID заказа, полученный из методов /v3/orders/add (см. п. 3.3.1.2), /v3/orders/addGroupOrders (см. п. 3.3.4.2) или /v3/labels/addAggregate (см. п. 3.4.1.2). Пример строки запроса: /v3/orders/list/2000488178"
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: |
+  Метод «Информация о заказе» (п. 3.3.2). Представление Б — версия API v3
+  (п. 3.3.2.2), номер заказа передаётся в строке запроса.
+  Представление А (версия API v2) — POST /v2/orders (см. п. 3.3.2.1).
+  Состав полей объекта Order в ответе зависит от вида заказа
+  (см. примеры): заказ кодов маркировки, заказ кодов агрегации формата
+  SSCC, заказ на регистрацию собственных кодов агрегации.

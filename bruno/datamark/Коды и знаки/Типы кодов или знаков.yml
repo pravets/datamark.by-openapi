@@ -1,0 +1,101 @@
+info:
+  name: Типы кодов или знаков
+  type: http
+  seq: 4
+  tags:
+    - Коды и знаки
+
+http:
+  method: GET
+  url: "{{baseUrl}}/labels/types"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Перечень типов кодов, знаков
+    request:
+      url: "{{baseUrl}}/labels/types"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "types_list": [
+              {
+                "digits_count": null,
+                "id": 6,
+                "is_autotake": false,
+                "is_bso": false,
+                "letters_count": null,
+                "method": "sscc",
+                "name": "Код агрегации (SSCC)"
+              },
+              {
+                "digits_count": null,
+                "id": 7,
+                "is_autotake": false,
+                "is_bso": false,
+                "letters_count": null,
+                "method": "km",
+                "name": "Код стран ЕАЭС идентификации товара"
+              },
+              {
+                "digits_count": null,
+                "id": 20,
+                "is_autotake": false,
+                "is_bso": false,
+                "letters_count": null,
+                "method": "km_rb",
+                "name": "Код РБ идентификации товара (обувь, шины, легкая промышленность)"
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/labels/types"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: Метод «Типы кодов или знаков» (п. 3.4.3). Возвращает перечень типов кодов и знаков (справочник «Типы кодов, знаков», см. п. 4.2.2). Входные параметры отсутствуют.

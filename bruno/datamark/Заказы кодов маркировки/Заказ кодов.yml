@@ -1,0 +1,97 @@
+info:
+  name: Заказ кодов
+  type: http
+  seq: 4
+  tags:
+    - Заказы кодов маркировки
+
+http:
+  method: POST
+  url: "{{baseUrl}}/v2/orders/add"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Успешное выполнение запроса — сведения о созданном заказе
+    request:
+      url: "{{baseUrl}}/v2/orders/add"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "order": {
+              "completed_at": null,
+              "count": 12,
+              "created_at": "2021-05-28 14:10:15",
+              "gtin": null,
+              "id": "268865",
+              "status": {
+                "code": 0,
+                "message": "Создан"
+              },
+              "type": {
+                "digits_count": null,
+                "id": 6,
+                "is_autotake": false,
+                "is_bso": false,
+                "letters_count": null,
+                "method": "sscc",
+                "name": "Код агрегации (SSCC)"
+              }
+            }
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v2/orders/add"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: |
+  Метод «Заказ кодов» (п. 3.3.1). Представление А — версия API v2 (п. 3.3.1.1).
+  Представление Б (версия API v3, ответ содержит только id и created_at) —
+  POST /v3/orders/add (см. п. 3.3.1.2).
+  Ограничение: для заказа доступны только коды с типом label_type = 6
+  (код агрегации SSCC); не более 1 000 кодов на 1 заказ.

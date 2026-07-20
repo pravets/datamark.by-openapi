@@ -1,0 +1,108 @@
+info:
+  name: Добавление товара по GTIN
+  type: http
+  seq: 3
+  tags:
+    - Каталог товаров
+
+http:
+  method: POST
+  url: "{{baseUrl}}/items/addByGtin"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Описание добавленного товара. Объект класса Item (см. п. 4.1.4)
+    request:
+      url: "{{baseUrl}}/items/addByGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "articul": null,
+            "catalog": {
+              "code": 10089,
+              "name": "Молочная продукция"
+            },
+            "code": "100890000569060",
+            "description": "Сыр \"Тильзитер\" массовая доля жира в сухом веществе 50 % квадрат, No name, весовой, 8 кг ПФ в г. Барановичи",
+            "document_id": null,
+            "group": "milk",
+            "gtin": 4810268043116,
+            "gtin_check": 0,
+            "image": "https://s3.datamark.by/catalogs_sand/404.jpg",
+            "is_my": true,
+            "name": "Сыр",
+            "params": [
+              {
+                "code": 40,
+                "display_value": 406909909,
+                "name": "ТН ВЭД",
+                "units": null,
+                "value": 406909909
+              },
+              {
+                "code": 20,
+                "display_value": "БЕЛАРУСЬ (BY)",
+                "name": "Страна происхождения (производства)",
+                "units": null,
+                "value": "BY"
+              },
+              {
+                "code": 41,
+                "display_value": "Отсутствует",
+                "name": "Товарный знак",
+                "units": null,
+                "value": "Отсутствует"
+              }
+            ],
+            "tnved": 406909909
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/items/addByGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }

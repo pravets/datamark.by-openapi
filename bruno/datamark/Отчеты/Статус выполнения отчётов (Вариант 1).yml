@@ -1,0 +1,467 @@
+info:
+  name: Статус выполнения отчётов (Вариант 1)
+  type: http
+  seq: 1
+  tags:
+    - Отчеты
+
+http:
+  method: POST
+  url: "{{baseUrl}}/v2/reports"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Вариант 11. Отчёт о вводе в оборот выполнен на основании документа поставки из Российской Федерации (type = 7)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2022-02-09 12:43:10+03",
+            "document_id": "cf1b944d-e1cd-4d45-8544-6905d9eab29b",
+            "group": "clothes",
+            "report_id": "f9a7b2e2-b3c5-4115-a36f-1bd3985a102c",
+            "result": {
+              "gtin_count": {
+                "194501164733": 2
+              },
+              "labels": {
+                "success": 2
+              }
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 7,
+            "updated_at": "2022-02-09 12:43:10.913544+03"
+          }
+  - name: Вариант 12. Отчёт об изменении параметров маркировки ранее поданного отчёта о маркировке (type = 13)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2022-10-17 11:17:09+03",
+            "report_id": "67db7b9d-ed03-4347-a849-753eed01076c",
+            "result": {
+              "params": {
+                "success": 5
+              }
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 13,
+            "updated_at": "2022-10-17 11:17:09.633828+03"
+          }
+  - name: Вариант 13. Отчёт о смене владельца (при реорганизации субъекта хозяйствования) выполнен полностью и без ошибок (type = 15)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2024-10-09 12:45:00+03",
+            "document_date": "2024-09-30",
+            "document_type": {
+              "code": "aktreorg",
+              "comment": null,
+              "name": "Акт передачи"
+            },
+            "report_id": "7ce6e142-7786-48f9-b99c-cbb25446ad73",
+            "result": {
+              "labels": {
+                "success": 56
+              },
+              "type_id": 21
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 15,
+            "updated_at": "2024-10-09 12:45:00.22853+03",
+            "user_from": {
+              "address": "г. Минск, ул. Красивая, д. 1, кв. 1",
+              "country": "112",
+              "gln": "4810000000007",
+              "is_rules_agree": true,
+              "name": "Индивидуальный предприниматель Иванов И.И.",
+              "unp": "100412881"
+            }
+          }
+  - name: Вариант 14. Отчёт о смене владельца не выполнен из-за ошибок (type = 15)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2024-10-04 16:50:19+03",
+            "report_id": "e91522d1-dd89-4888-b89d-15edf386a034",
+            "result": {
+              "labels": {
+                "details": [
+                  "0104810347004960212PvLoL3w4P2x4\u001d910005\u001d92FQLyLPCNtWefoagGWAZZTb9EoaQwe1fa9KSRhUkzLS2jMy6ReYUg5mAjp55hMfgNxEmbPXm7M8d6kp4LSAC4CwJt не найден или имеет некорректный статус/владельца.",
+                  "AAA012345289 не найден или имеет некорректный статус/владельца."
+                ],
+                "failed": 15
+              }
+            },
+            "status": {
+              "code": 40,
+              "message": "Ошибка"
+            },
+            "type": 15,
+            "updated_at": "2024-10-04 16:50:50.454781+03"
+          }
+  - name: Вариант 1. Отчёт создан, но ещё не обработан
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2020-12-15 09:55:46+03",
+            "group": "shoes",
+            "report_id": "22331fa0-740c-4307-80a7-10b24827d9ff",
+            "result": null,
+            "status": {
+              "code": 0,
+              "message": "Создан"
+            },
+            "type": 1,
+            "updated_at": null
+          }
+  - name: Вариант 2. Отчёт о маркировке выполнен полностью и без ошибок (type = 1)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2020-12-23 10:48:56+03",
+            "group": "tires",
+            "report_id": "59b8ea17-81f0-47ea-99c4-60eeffe1f347",
+            "result": {
+              "labels": {
+                "success": 5
+              },
+              "type_id": 20
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 1,
+            "updated_at": "2020-12-23 10:48:57.001371+03"
+          }
+  - name: Вариант 5. Отчёт о маркировке с агрегацией выполнен частично (агрегация произведена полностью, за исключением отклоненных КМ; type = 1)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2020-12-23 11:02:21+03",
+            "group": "milk",
+            "report_id": "e841883f-b89b-43ee-bad2-4b91f5afa658",
+            "result": {
+              "aggregate": {
+                "success": 4
+              },
+              "labels": {
+                "details": [
+                  "0104810263033525212sFV261B\u001d935GVA not found",
+                  "0104810263033525212D2v4Ddv\u001d93dF2E not found"
+                ],
+                "failed": 2,
+                "success": 3
+              },
+              "type_id": 12
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 1,
+            "updated_at": "2020-12-23 11:02:22.001934+03"
+          }
+  - name: Вариант 6. Отчёт об агрегировании выполнен частично (не найдена часть кодов маркировки; type = 2)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2022-01-21 17:16:20+03",
+            "report_id": "661acd42-60fa-464e-8348-d186bf80be9e",
+            "result": {
+              "aggregate": {
+                "success": 90
+              },
+              "labels": {
+                "details": [
+                  "01048141300000542121vtxTq2qgpL5\u001d910005\u001d921S1EbB8T3A1gtdPY72JAK9f3ouksrDcgzPtZojqs2YrJ not found",
+                  "0104814130000054212Y33i7WyHbhe3\u001d910005\u001d922MGuuEi3cKrAnzXmRJ6n2vpHXBgXoVY7EHXDxxR8CrrH not found"
+                ],
+                "failed": 10
+              }
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 2,
+            "updated_at": "2022-01-21 19:15:03.418405+03"
+          }
+  - name: Вариант 7. Отчёт не выполнен из-за ошибки (status.code = 40)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2020-12-23 02:30:52+03",
+            "group": "milk",
+            "report_id": "791f0160-f62e-466a-85c8-26e50713a7ab",
+            "result": {
+              "error": 2001,
+              "message": "GTIN not found"
+            },
+            "status": {
+              "code": 40,
+              "message": "Ошибка"
+            },
+            "type": 1,
+            "updated_at": "2020-12-23 02:30:52.001098+03"
+          }
+  - name: Вариант 8. Отчёт о маркировке остатков выполнен частично (не найден один из кодов маркировки; type = 6)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2021-10-10 15:00:20+03",
+            "group": "leftovers_shoes",
+            "report_id": "9f7a3581-9447-425a-a931-49412b3fdb19",
+            "result": {
+              "gtin_count": {
+                "4810978916892": 1,
+                "4814130000030": 1
+              },
+              "labels": {
+                "details": [
+                  {
+                    "comment": "Новая обувь, партия 127",
+                    "label": "0104812700000039212FcDtbAMjwCfY\u001d91TEST\u001d92testtest...test test not found"
+                  },
+                  {
+                    "comment": "Обувь женская, для вывоза из РБ",
+                    "label": "0104810978916892212Y6MayiL1LqLY\u001d91TEST\u001d92testtest...testtest"
+                  }
+                ],
+                "failed": 1,
+                "success": 24
+              },
+              "type_id": 20
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 6,
+            "updated_at": "2021-10-10 15:00:21.002721+03"
+          }
+  - name: Вариант 9. Отчёт о вводе в оборот выполнен полностью и без ошибок (type = 7)
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "created_at": "2022-01-18 18:55:56+03",
+            "group": "clothes",
+            "report_id": "c8303b42-fd5f-4e6d-945f-011fc6125606",
+            "result": {
+              "gtin_count": {
+                "4811595000018": 3,
+                "8808563305196": 3
+              },
+              "labels": {
+                "success": 6
+              },
+              "type_id": 7
+            },
+            "status": {
+              "code": 30,
+              "message": "Выполнен"
+            },
+            "type": 7,
+            "updated_at": "2022-01-18 18:55:57.551992+03"
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v2/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Вариант 1 метода «Статус выполнения отчётов» (п. 3.5.5.1). Возвращает состояние одного отчёта по его уникальному идентификатору (UID): даты создания и последнего обновления, ID типа отчёта, товарную группу, текущий статус (объект класса ReportStatus, см. п. 4.2.5) и представление результатов обработки отчёта. Состав атрибутов результата (поле result) зависит от типа отчёта и результатов его выполнения; могут содержаться дополнительные сведения. Вариант 2 метода (пакетный запрос статусов по списку UID) доступен по адресу /v3/reports (п. 3.5.5.2)."

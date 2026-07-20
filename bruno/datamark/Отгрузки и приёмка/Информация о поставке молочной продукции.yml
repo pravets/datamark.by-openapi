@@ -1,0 +1,223 @@
+info:
+  name: Информация о поставке молочной продукции
+  type: http
+  seq: 3
+  tags:
+    - Отгрузки и приёмка
+
+http:
+  method: POST
+  url: "{{baseUrl}}/ships/getGtin"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Вариант 1. Для поставки молочной продукции на экспорт (operation = export)
+    request:
+      url: "{{baseUrl}}/ships/getGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "code": 499524,
+            "comment": "",
+            "contract": false,
+            "country": {
+              "id": "643",
+              "name": "Россия"
+            },
+            "created_at": "2022-10-10 14:55:38+03",
+            "debug_message": "03: Недопустимый формат значения поля \"ИНН получателя в РФ\"., 07: Недопустимое количество символов в значении поля \"ИНН получателя в РФ\"., 05: Значение поля \"Сумма НДС\" находится вне допустимого числового диапазона.",
+            "document_id": "BY-00000000000000499524",
+            "gtin": {
+              "4810099033898": {
+                "certificate": "123e4567-e89b-12d3-a456-426655440000",
+                "certificate_document_data": [
+                  {
+                    "certificate_date": "2021-11-08",
+                    "certificate_number": "12",
+                    "certificate_type": "CONFORMITY_CERTIFICATE"
+                  }
+                ],
+                "count": 18,
+                "name": "Напиток молочный",
+                "product_cost": "4369",
+                "product_tax": "2223"
+              },
+              "4810268046698": {
+                "certificate": "a51ccbdf-eb38-44e2-9234-1ad1ad06f502",
+                "count": 152,
+                "name": "Сливки"
+              }
+            },
+            "name": "004-4811612900000-0000000000000000123456789",
+            "operation_date": "2022-10-10",
+            "price": {
+              "currency": "rub643",
+              "price": "123456.78"
+            },
+            "shipment_status": {
+              "code": "CHECKED_NOT_OK",
+              "message": "Обработан с ошибками"
+            },
+            "shipping_doc": {
+              "code": "etn",
+              "name": "ЭТН – электронная товарная накладная"
+            },
+            "user_from": {
+              "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+              "country": "112",
+              "gln": "4811612900000",
+              "is_rules_agree": true,
+              "name": "СООО \"Свиток\"",
+              "unp": "190704463"
+            },
+            "user_to": {
+              "address": "350002 г.Краснодар, ул.Леваневского, д.185",
+              "agent": 18774,
+              "country": "643",
+              "gln": "",
+              "is_verified": false,
+              "name": "АО \"Тандер\"",
+              "unp": "350002"
+            }
+          }
+  - name: Вариант 2. Для поставки молочной продукции по импорту (operation = import)
+    request:
+      url: "{{baseUrl}}/ships/getGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "code": 499549,
+            "comment": null,
+            "contract": false,
+            "country": {
+              "id": "643",
+              "name": "Россия"
+            },
+            "created_at": "2022-11-09 10:09:17+03",
+            "document_id": "RU-UEGCB00000000000000000037-0010",
+            "gtin": {
+              "4648349498834": {
+                "count": 25
+              },
+              "4690228010347": {
+                "count": 50
+              }
+            },
+            "name": "0123456",
+            "operation_date": "2022-11-09",
+            "price": {
+              "currency": null,
+              "price": null
+            },
+            "shipment_status": {
+              "code": "WAIT_ACCEPTANCE",
+              "message": "Ожидает приемку"
+            },
+            "shipping_doc": {
+              "code": "tnttn",
+              "name": "ТН – товарная накладная"
+            },
+            "user_from": {
+              "address": "350002 г.Краснодар, ул.Леваневского, д.185",
+              "agent": 18774,
+              "country": "643",
+              "gln": "",
+              "is_verified": false,
+              "name": " АО \"Тандер\"",
+              "unp": "2310031475"
+            },
+            "user_to": {
+              "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+              "country": "112",
+              "gln": "4811612900000",
+              "is_rules_agree": true,
+              "name": "СООО \"Свиток\"",
+              "unp": "190704463"
+            }
+          }
+  - name: default Response (Вариант 1. Для поставки молочной продукции на экспорт (operation = export))
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/ships/getGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+  - name: default Response (Вариант 2. Для поставки молочной продукции по импорту (operation = import))
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/ships/getGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Метод «Информация о поставке молочной продукции» (п. 3.7.11). Возвращает сведения о поставке молочной продукции (объект класса Ship, см. п. 4.1.7). Вариант 1 — для поставки молочной продукции на экспорт (operation = export): передаётся параметр code (номер поставки). Вариант 2 — для поставки молочной продукции по импорту (operation = import): передаётся параметр document_id (уникальный идентификатор документа)."

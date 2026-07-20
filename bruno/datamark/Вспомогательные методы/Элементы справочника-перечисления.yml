@@ -1,0 +1,117 @@
+info:
+  name: Элементы справочника-перечисления
+  type: http
+  seq: 2
+  tags:
+    - Вспомогательные методы
+
+http:
+  method: POST
+  url: "{{baseUrl}}/directories/:code"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  params:
+    - name: code
+      value: currency
+      type: path
+      description: Код списка, полученный методом /directories/ (см. п. 3.8.2)
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Описание справочника (списка, перечисления) и перечень его элементов
+    request:
+      url: "{{baseUrl}}/directories/:code"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: code
+          value: currency
+          type: path
+          description: Код списка, полученный методом /directories/ (см. п. 3.8.2)
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "code": "currency",
+            "comment": "",
+            "inner": [
+              {
+                "code": "usd840",
+                "comment": null,
+                "name": "Доллар США"
+              },
+              {
+                "code": "rub643",
+                "comment": null,
+                "name": "Российский рубль"
+              },
+              {
+                "code": "kzt398",
+                "comment": null,
+                "name": "Казахский тенге"
+              },
+              {
+                "code": "byn933",
+                "comment": null,
+                "name": "Белорусский рубль"
+              },
+              {
+                "code": "eur978",
+                "comment": null,
+                "name": "Евро"
+              }
+            ],
+            "name": "Валюты"
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса (в т.ч. код 1250 «Справочник-перечисление не найден», см. раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/directories/:code"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: code
+          value: currency
+          type: path
+          description: Код списка, полученный методом /directories/ (см. п. 3.8.2)
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Описание справочника (списка, перечисления) и перечень его элементов. Примечание из документа: значения некоторых справочников-перечислений, используемых в качестве значений параметров отдельных API-методов, приведены в п. 4.3 документа."

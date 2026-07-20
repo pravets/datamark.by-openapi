@@ -1,0 +1,264 @@
+info:
+  name: Параметры для категории товаров
+  type: http
+  seq: 2
+  tags:
+    - Каталог товаров
+
+http:
+  method: POST
+  url: "{{baseUrl}}/catalogs/:code"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  params:
+    - name: code
+      value: "10089"
+      type: path
+      description: Код (идентификатор) раздела каталога (категории) товара, полученный из метода /catalogs/ (см. п. 3.2.1; перечень значений приведен таблице 4.1.3.2)
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Вариант 1. Молочная продукция (фрагмент)
+    request:
+      url: "{{baseUrl}}/catalogs/:code"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: code
+          value: "10089"
+          type: path
+          description: Код (идентификатор) раздела каталога (категории) товара, полученный из метода /catalogs/ (см. п. 3.2.1; перечень значений приведен таблице 4.1.3.2)
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "catalog_params": [
+              {
+                "group": "Общая характеристика",
+                "params": [
+                  {
+                    "code": 40,
+                    "is_editable": false,
+                    "is_required": true,
+                    "is_show_catalog": false,
+                    "name": "ТН ВЭД",
+                    "type": "text",
+                    "units": null,
+                    "value": {
+                      "list": [
+                        "0406",
+                        "210500",
+                        "2202999100"
+                      ]
+                    }
+                  },
+                  {
+                    "code": 46,
+                    "is_editable": false,
+                    "is_required": true,
+                    "is_show_catalog": false,
+                    "name": "Массовая доля жира, %",
+                    "type": "text",
+                    "units": null,
+                    "value": null
+                  },
+                  {
+                    "code": 20,
+                    "is_editable": false,
+                    "is_required": true,
+                    "is_show_catalog": false,
+                    "name": "Страна происхождения (производства)",
+                    "type": "select",
+                    "units": null,
+                    "value": {
+                      "list": [
+                        {
+                          "code": "AU",
+                          "value": "АВСТРАЛИЯ (AU)"
+                        },
+                        {
+                          "code": "AT",
+                          "value": "АВСТРИЯ (AT)"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "code": 10089,
+            "group": {
+              "articul_required": false,
+              "code": "milk",
+              "gtin_required": true,
+              "is_gtin_add": true,
+              "is_manually_add": false,
+              "name": "Молочная продукция"
+            },
+            "items": [],
+            "mark_params": [
+              {
+                "group": "Производственная партия",
+                "params": [
+                  {
+                    "code": 29,
+                    "is_editable": false,
+                    "is_required": true,
+                    "is_show_catalog": false,
+                    "name": "Дата изготовления",
+                    "type": "date",
+                    "units": null,
+                    "value": null
+                  },
+                  {
+                    "code": 122,
+                    "is_editable": false,
+                    "is_required": true,
+                    "is_show_catalog": false,
+                    "name": "Дата истечения срока годности",
+                    "type": "date",
+                    "units": null,
+                    "value": null
+                  },
+                  {
+                    "code": 123,
+                    "is_editable": false,
+                    "is_required": false,
+                    "is_show_catalog": false,
+                    "name": "Тип производственного заказа",
+                    "type": "select",
+                    "units": null,
+                    "value": {
+                      "list": [
+                        {
+                          "code": "1",
+                          "value": "Собственное производство"
+                        },
+                        {
+                          "code": "2",
+                          "value": "Контрактное производство"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "name": "Молочная продукция"
+          }
+  - name: Вариант 2. Товары, маркируемые УКЗ (фрагмент)
+    request:
+      url: "{{baseUrl}}/catalogs/:code"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: code
+          value: "10089"
+          type: path
+          description: Код (идентификатор) раздела каталога (категории) товара, полученный из метода /catalogs/ (см. п. 3.2.1; перечень значений приведен таблице 4.1.3.2)
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "catalog_params": [],
+            "code": 10090,
+            "count_items": 22,
+            "group": {
+              "articul_required": false,
+              "code": "ukz",
+              "gtin_required": false,
+              "is_gtin_add": false,
+              "is_manually_add": false,
+              "is_show_articul": false,
+              "is_show_gtin": false,
+              "name": "Товары, подлежащие маркировке УКЗ"
+            },
+            "items": [
+              {
+                "articul": "",
+                "code": "100950000583470",
+                "description": "",
+                "group": "ukz",
+                "gtin": null,
+                "gtin_check": false,
+                "image": "https://s3.datamark.by/catalogs_sand/876-1624961963-e3dd0388a6c7fd03f318330176abdec7.jpg",
+                "is_my": false,
+                "name": "Икра; консервы рыбные (ТН ВЭД ЕАЭС из 1604)",
+                "params": []
+              },
+              {
+                "articul": "",
+                "code": "100950000583469",
+                "description": "за исключением 2202 99 910 0, 2202 99 950 0, 2202 99 990 0",
+                "group": "ukz",
+                "gtin": null,
+                "gtin_check": false,
+                "image": "https://s3.datamark.by/catalogs_sand/876-1624961879-036eb7149397ee30252482b443167c26.jpg",
+                "is_my": false,
+                "name": "Воды (ТН ВЭД ЕАЭС из 2202)",
+                "params": []
+              }
+            ],
+            "mark_params": [],
+            "name": "Товары, подлежащие маркировке УКЗ"
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/catalogs/:code"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: code
+          value: "10089"
+          type: path
+          description: Код (идентификатор) раздела каталога (категории) товара, полученный из метода /catalogs/ (см. п. 3.2.1; перечень значений приведен таблице 4.1.3.2)
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Метод возвращает раздел каталога (категорию) товаров с параметрами категории. Пример строки запроса из документа: /catalogs/10089"

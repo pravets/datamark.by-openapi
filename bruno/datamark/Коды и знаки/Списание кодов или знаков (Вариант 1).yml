@@ -1,0 +1,74 @@
+info:
+  name: Списание кодов или знаков (Вариант 1)
+  type: http
+  seq: 3
+  tags:
+    - Коды и знаки
+
+http:
+  method: POST
+  url: "{{baseUrl}}/labels/destroy"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Результат списания знаков защиты
+    request:
+      url: "{{baseUrl}}/labels/destroy"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "count": 1000,
+            "message": "Успешно обработано"
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/labels/destroy"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Вариант 1 метода «Списание кодов или знаков» (п. 3.4.4.1). Применяется только для передачи сведений о ЗЗ, использованных для маркировки товаров. Ограничения: допустимо только списание ЗЗ по причине их использования для целей маркировки товаров (reason = usemark); в массиве labels указываются только серии и номера ЗЗ (тип кода label_type = 19). Вариант 2 метода доступен по адресу /v3/labels/destroy (п. 3.4.4.2)."

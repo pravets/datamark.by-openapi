@@ -1,0 +1,74 @@
+info:
+  name: Списание кодов или знаков (Вариант 2)
+  type: http
+  seq: 10
+  tags:
+    - Коды и знаки
+
+http:
+  method: POST
+  url: "{{baseUrl}}/v3/labels/destroy"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Результат постановки кодов или знаков на списание
+    request:
+      url: "{{baseUrl}}/v3/labels/destroy"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "report_id": 5443,
+            "report_uid": "0d3e86d3-ddf0-4664-a612-4fa9130bd7df"
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/labels/destroy"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: Вариант 2 метода «Списание кодов или знаков» (п. 3.4.4.2). Применяется для списания кодов (КМ или КА) или знаков (УКЗ, ЗМН или ЗЗ) по причинам, отличным от их использования для целей маркировки товаров (например, порча, утеря, хищение, по решению субъекта хозяйствования либо иным причинам). Запрос должен обязательно содержать хотя бы один из параметров, в которых перечислены коды ("labels" для КМ, серий и номеров бланков УКЗ, ЗМН или ЗЗ либо "aggregates" для КА). Вариант 1 метода доступен по адресу /labels/destroy (п. 3.4.4.1).

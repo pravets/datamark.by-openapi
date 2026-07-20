@@ -1,0 +1,245 @@
+info:
+  name: Список актов оказанных услуг
+  type: http
+  seq: 1
+  tags:
+    - Биллинг
+
+http:
+  method: GET
+  url: "{{baseUrl}}/v3/common/getUsersBillingPdfActsList"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  params:
+    - name: act_type
+      value: "9"
+      type: query
+      description: "Группа оказанных услуг. Допустимые значения: 9 – услуги по выдаче и учёту КМ; 10 – услуги доступа к сервису «Электронный кабинет»."
+      disabled: true
+    - name: act_type
+      value: "10"
+      type: query
+      description: "Группа оказанных услуг. Допустимые значения: 9 – услуги по выдаче и учёту КМ; 10 – услуги доступа к сервису «Электронный кабинет»."
+      disabled: true
+    - name: page
+      value: "1"
+      type: query
+      description: Номер страницы перечня актов оказанных услуг
+    - name: page_size
+      value: "15"
+      type: query
+      description: Число записей на странице. Максимум – до 200, по умолчанию – до 15 на 1 страницу
+    - name: ordering
+      value: id
+      type: query
+      description: "Условия сортировки данных: id – по возрастанию идентификатора акта оказанных услуг; -id – по убыванию идентификатора акта оказанных услуг"
+      disabled: true
+    - name: ordering
+      value: -id
+      type: query
+      description: "Условия сортировки данных: id – по возрастанию идентификатора акта оказанных услуг; -id – по убыванию идентификатора акта оказанных услуг"
+      disabled: true
+    - name: period_year_start
+      value: "2024"
+      type: query
+      description: Год начала интервала расчётного периода
+    - name: period_month_start
+      value: "12"
+      type: query
+      description: Месяц начала интервала расчётного периода
+    - name: period_year_end
+      value: "2025"
+      type: query
+      description: Год окончания интервала расчётного периода
+    - name: period_month_end
+      value: "2"
+      type: query
+      description: Месяц окончания интервала расчётного периода
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Постраничный перечень актов оказанных услуг
+    request:
+      url: "{{baseUrl}}/v3/common/getUsersBillingPdfActsList"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: act_type
+          value: "9"
+          type: query
+          description: "Группа оказанных услуг. Допустимые значения: 9 – услуги по выдаче и учёту КМ; 10 – услуги доступа к сервису «Электронный кабинет»."
+          disabled: true
+        - name: act_type
+          value: "10"
+          type: query
+          description: "Группа оказанных услуг. Допустимые значения: 9 – услуги по выдаче и учёту КМ; 10 – услуги доступа к сервису «Электронный кабинет»."
+          disabled: true
+        - name: page
+          value: "1"
+          type: query
+          description: Номер страницы перечня актов оказанных услуг
+        - name: page_size
+          value: "15"
+          type: query
+          description: Число записей на странице. Максимум – до 200, по умолчанию – до 15 на 1 страницу
+        - name: ordering
+          value: id
+          type: query
+          description: "Условия сортировки данных: id – по возрастанию идентификатора акта оказанных услуг; -id – по убыванию идентификатора акта оказанных услуг"
+          disabled: true
+        - name: ordering
+          value: -id
+          type: query
+          description: "Условия сортировки данных: id – по возрастанию идентификатора акта оказанных услуг; -id – по убыванию идентификатора акта оказанных услуг"
+          disabled: true
+        - name: period_year_start
+          value: "2024"
+          type: query
+          description: Год начала интервала расчётного периода
+        - name: period_month_start
+          value: "12"
+          type: query
+          description: Месяц начала интервала расчётного периода
+        - name: period_year_end
+          value: "2025"
+          type: query
+          description: Год окончания интервала расчётного периода
+        - name: period_month_end
+          value: "2"
+          type: query
+          description: Месяц окончания интервала расчётного периода
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "next": null,
+            "previous": null,
+            "results": [
+              {
+                "admin_billing_pdf_acts_id": 24,
+                "base_url": "https://billing.4ek.by:80",
+                "id": 2906,
+                "info": {
+                  "billing_data_gln": [
+                    {
+                      "act_name": "Услуга по предоставлению и учету кода маркировки (Код РБ идентификации товара)",
+                      "date": "2025-01-31",
+                      "label_type": "12, 20",
+                      "nds": "8.45",
+                      "number": 5500,
+                      "one_c_code": "яв806",
+                      "period_end_date": "2025-01-31",
+                      "period_start_date": "2025-01-01",
+                      "price": "0.0170",
+                      "quantity": 2485,
+                      "sum": "42.25",
+                      "sum_nds": "50.70",
+                      "url": "/api/calculations/act/print/190704463_5500_31012025.pdf"
+                    }
+                  ]
+                },
+                "period_month": 1,
+                "period_year": 2025,
+                "user_info": {
+                  "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                  "country": "112",
+                  "gln": "4811612900000",
+                  "is_rules_agree": true,
+                  "name": "СООО \"Свиток\"",
+                  "unp": "190704463",
+                  "user_info_id_old": null
+                },
+                "user_info_id": 129
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса (см. раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/common/getUsersBillingPdfActsList"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: act_type
+          value: "9"
+          type: query
+          description: "Группа оказанных услуг. Допустимые значения: 9 – услуги по выдаче и учёту КМ; 10 – услуги доступа к сервису «Электронный кабинет»."
+          disabled: true
+        - name: act_type
+          value: "10"
+          type: query
+          description: "Группа оказанных услуг. Допустимые значения: 9 – услуги по выдаче и учёту КМ; 10 – услуги доступа к сервису «Электронный кабинет»."
+          disabled: true
+        - name: page
+          value: "1"
+          type: query
+          description: Номер страницы перечня актов оказанных услуг
+        - name: page_size
+          value: "15"
+          type: query
+          description: Число записей на странице. Максимум – до 200, по умолчанию – до 15 на 1 страницу
+        - name: ordering
+          value: id
+          type: query
+          description: "Условия сортировки данных: id – по возрастанию идентификатора акта оказанных услуг; -id – по убыванию идентификатора акта оказанных услуг"
+          disabled: true
+        - name: ordering
+          value: -id
+          type: query
+          description: "Условия сортировки данных: id – по возрастанию идентификатора акта оказанных услуг; -id – по убыванию идентификатора акта оказанных услуг"
+          disabled: true
+        - name: period_year_start
+          value: "2024"
+          type: query
+          description: Год начала интервала расчётного периода
+        - name: period_month_start
+          value: "12"
+          type: query
+          description: Месяц начала интервала расчётного периода
+        - name: period_year_end
+          value: "2025"
+          type: query
+          description: Год окончания интервала расчётного периода
+        - name: period_month_end
+          value: "2"
+          type: query
+          description: Месяц окончания интервала расчётного периода
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }

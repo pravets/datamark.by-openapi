@@ -1,0 +1,169 @@
+info:
+  name: Поиск товара
+  type: http
+  seq: 6
+  tags:
+    - Каталог товаров
+
+http:
+  method: POST
+  url: "{{baseUrl}}/items/findItems"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Вариант 1. Поиск по умолчанию (is_import = False или не указан). Массив params сокращён (в документе ~25 элементов)
+    request:
+      url: "{{baseUrl}}/items/findItems"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "items": [
+              {
+                "articul": "BEL-295",
+                "catalog": {
+                  "code": 10086,
+                  "name": "Шины и покрышки"
+                },
+                "code": "100860000494400",
+                "debug_message": {
+                  "gtin": "4811644004509",
+                  "status_code": "1",
+                  "status_message": "Товар успешно зарегистрирован"
+                },
+                "description": "Шина пневматическая  для легковых автомобилей Белшина 225/65R17   BEL-295   102H  БЕСКАМЕРНЫЕ   ЛЕТНИЕ ШИНЫ",
+                "document_id": null,
+                "group": "tires",
+                "gtin": 4811644004509,
+                "gtin_check": true,
+                "image": "https://s3.datamark.by/catalogs/404.jpg",
+                "is_my": true,
+                "name": "Шина пневматическая  для легковых автомобилей",
+                "params": [
+                  {
+                    "code": 22,
+                    "display_value": "Белшина",
+                    "name": "Бренд (торговая марка)",
+                    "units": null,
+                    "value": "Белшина"
+                  },
+                  {
+                    "code": 20,
+                    "display_value": "БЕЛАРУСЬ (BY)",
+                    "name": "Страна происхождения (производства)",
+                    "units": null,
+                    "value": "BY"
+                  }
+                ],
+                "tnved": "4011100009"
+              }
+            ]
+          }
+  - name: Вариант 2. Поиск по импортированным товарам (is_import = True). Массив params сокращён
+    request:
+      url: "{{baseUrl}}/items/findItems"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "items": [
+              {
+                "brand": "Флоаре",
+                "country": {
+                  "code": "MD",
+                  "name": "Молдова"
+                },
+                "epass_sync": false,
+                "gtin": 4640102859104,
+                "is_import": true,
+                "name": "Сабо женские, бел/гол, арт. 69630108/06, размер 39",
+                "operator_country": "643",
+                "params": [
+                  {
+                    "display_value": "39",
+                    "name": "Размер в штихмассовой системе",
+                    "value": "39"
+                  },
+                  {
+                    "display_value": "САБО",
+                    "name": "Вид обуви",
+                    "value": "САБО"
+                  },
+                  {
+                    "display_value": "натуральная кожа",
+                    "name": "Материал верха",
+                    "value": "натуральная кожа"
+                  },
+                  {
+                    "display_value": "464010285",
+                    "group": "Заявитель",
+                    "name": "GCP заявителя",
+                    "value": "464010285"
+                  }
+                ],
+                "tnved": "6403",
+                "unp": "7722735776"
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/items/findItems"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: Метод выполняет поиск товара по GTIN либо по Артикулу/Модели.

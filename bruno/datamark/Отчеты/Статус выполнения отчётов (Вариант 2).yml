@@ -1,0 +1,196 @@
+info:
+  name: Статус выполнения отчётов (Вариант 2)
+  type: http
+  seq: 16
+  tags:
+    - Отчеты
+
+http:
+  method: POST
+  url: "{{baseUrl}}/v3/reports"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Вариант 1. Представление А
+    request:
+      url: "{{baseUrl}}/v3/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "not_found_uuids": [
+              "6a0735ec-068b-46b6-b91a-e12a4b040ca5"
+            ],
+            "results": [
+              {
+                "created_at": "2020-12-23T10:48:56",
+                "report_id": "59b8ea17-81f0-47ea-99c4-60eeffe1f347",
+                "result": {
+                  "group": "shoes",
+                  "labels": {
+                    "success": 5
+                  }
+                },
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": 1,
+                "updated_at": "2020-12-23T10:48:57.002"
+              },
+              {
+                "created_at": "2022-01-21T17:16:20",
+                "report_id": "661acd42-60fa-464e-8348-d186bf80be9e",
+                "result": {
+                  "labels": {
+                    "failed": 1
+                  }
+                },
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": 2,
+                "updated_at": "2022-01-21T19:15:03.418"
+              },
+              {
+                "created_at": "2024-10-09T12:45:00",
+                "report_id": "7ce6e142-7786-48f9-b99c-cbb25446ad73",
+                "result": null,
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": 15,
+                "updated_at": "2024-10-09T12:45:00.229"
+              }
+            ]
+          }
+  - name: Вариант 2. Представление Б
+    request:
+      url: "{{baseUrl}}/v3/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "not_found_uuids": [],
+            "results": [
+              {
+                "created_at": "2025-05-26T16:05:31.274",
+                "report_id": "4d43a57e-f1ed-4c27-8f1d-b854c6c44274",
+                "result": {
+                  "group": "telephone",
+                  "gtin": 8904132437722,
+                  "labels": {
+                    "all": 5,
+                    "failed": 0,
+                    "success": 5
+                  }
+                },
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": 1,
+                "updated_at": "2025-05-26T16:05:31.748"
+              },
+              {
+                "created_at": "2025-01-03T12:55:07.869",
+                "report_id": "cd31ab3a-f4ed-42c4-b464-95e435f3a1ca",
+                "result": {
+                  "group": "telephone",
+                  "labels": {
+                    "aggregated": 5,
+                    "all": 5,
+                    "failed": 0,
+                    "success": 5
+                  }
+                },
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": 2,
+                "updated_at": "2025-01-03T12:55:08.096"
+              },
+              {
+                "created_at": "2025-01-13T13:42:31.289",
+                "report_id": "eb1e7507-aa31-4021-ba8e-f6c4b4331d9a",
+                "result": {
+                  "group": "juice",
+                  "labels": {
+                    "all": 5,
+                    "failed": 5,
+                    "success": 0
+                  }
+                },
+                "status": {
+                  "code": 40,
+                  "message": "Ошибка"
+                },
+                "type": 16,
+                "updated_at": "2025-01-13T13:42:31.542"
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/reports"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Вариант 2 метода «Статус выполнения отчётов» (п. 3.5.5.2). Возвращает перечень отчётов любого типа и результаты их обработки по списку уникальных идентификаторов (UID), а также перечень не найденных UID. В документе приведены два варианта представления результатов: Представление А (сокращённые счётчики обработки КМ: success/failed) и Представление Б (расширенные счётчики: all/failed/success/aggregated, а также GTIN). Критерий отнесения отчёта к представлению А или Б в документе явно не указан (см. oneOf в схеме поля result). Вариант 1 метода (запрос одного отчёта) доступен по адресу /v2/reports (п. 3.5.5.1)."

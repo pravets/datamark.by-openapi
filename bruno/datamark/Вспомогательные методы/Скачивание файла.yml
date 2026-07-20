@@ -1,0 +1,83 @@
+info:
+  name: Скачивание файла
+  type: http
+  seq: 3
+  tags:
+    - Вспомогательные методы
+
+http:
+  method: GET
+  url: "{{baseUrl}}/downloads/:filename"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  params:
+    - name: filename
+      value: 507-sygn-253590-2020-11-19-14-01-01-4.txt
+      type: path
+      description: Имя файла. Как правило, указано в одноименном параметре секции file объекта класса Order (см. п. 4.1.6), возвращаемого методом /orders/{id} (см. п. 3.3.2.1)
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Содержимое запрашиваемого файла (файл для скачивания)
+    request:
+      url: "{{baseUrl}}/downloads/:filename"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: filename
+          value: 507-sygn-253590-2020-11-19-14-01-01-4.txt
+          type: path
+          description: Имя файла. Как правило, указано в одноименном параметре секции file объекта класса Order (см. п. 4.1.6), возвращаемого методом /orders/{id} (см. п. 3.3.2.1)
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/octet-stream
+      body:
+        type: text
+        data: ""
+  - name: default Response
+    description: Ошибка выполнения запроса (в т.ч. код 403 «Файл не найден или у вас нет прав доступа», см. раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/downloads/:filename"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: filename
+          value: 507-sygn-253590-2020-11-19-14-01-01-4.txt
+          type: path
+          description: Имя файла. Как правило, указано в одноименном параметре секции file объекта класса Order (см. п. 4.1.6), возвращаемого методом /orders/{id} (см. п. 3.3.2.1)
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }

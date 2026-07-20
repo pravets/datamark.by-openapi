@@ -1,0 +1,7 @@
+info:
+  name: Каталог товаров
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

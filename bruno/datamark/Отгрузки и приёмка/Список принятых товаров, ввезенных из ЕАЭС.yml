@@ -1,0 +1,85 @@
+info:
+  name: Список принятых товаров, ввезенных из ЕАЭС
+  type: http
+  seq: 8
+  tags:
+    - Отгрузки и приёмка
+
+http:
+  method: POST
+  url: "{{baseUrl}}/ships/importGtin"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Перечень принятых товаров, ввезенных из ЕАЭС
+    request:
+      url: "{{baseUrl}}/ships/importGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "document_id": "RU-UECB00000000000000000157-0289",
+            "gtin_list": [
+              {
+                "count": 4,
+                "gtin": 4548515036139,
+                "name": "Шина пневматическая YOKOHAMA ADVAN Neova AD09 295/30R20 101W."
+              },
+              {
+                "count": 6,
+                "gtin": 4811644000730,
+                "name": "Шина пневматическая для легковых автомобилей"
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/ships/importGtin"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: Метод «Список принятых товаров, ввезенных из ЕАЭС» (п. 3.7.13). Возвращает перечень принятых товаров (GTIN, наименование, количество) по уникальному идентификатору поставки из ЕАЭС.

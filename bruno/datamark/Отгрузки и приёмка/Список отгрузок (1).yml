@@ -1,0 +1,450 @@
+info:
+  name: Список отгрузок (1)
+  type: http
+  seq: 19
+  tags:
+    - Отгрузки и приёмка
+
+http:
+  method: GET
+  url: "{{baseUrl}}/v3/ships/shipped"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  params:
+    - name: page
+      value: "1"
+      type: query
+      description: Номер страницы перечня отгрузок
+    - name: page_size
+      value: "15"
+      type: query
+      description: Число записей на странице. Максимум — до 200, по умолчанию — до 15 на 1 страницу
+    - name: ordering
+      value: created_at
+      type: query
+      description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+      disabled: true
+    - name: ordering
+      value: -created_at
+      type: query
+      description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+      disabled: true
+    - name: ordering
+      value: id
+      type: query
+      description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+      disabled: true
+    - name: ordering
+      value: -id
+      type: query
+      description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+      disabled: true
+    - name: start_date
+      value: ""
+      type: query
+      description: "Начальная дата создания отгрузки. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: end_date
+      value: ""
+      type: query
+      description: "Конечная дата создания отгрузки. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: nomer_tn
+      value: ""
+      type: query
+      description: Номер сопроводительного документа, может также включать серию
+      disabled: true
+    - name: country
+      value: ""
+      type: query
+      description: Цифровой код страны. Код значения перечисления country, полученного методом /directories/{:code} (см. п. 3.8.3; перечень значений приведен таблице 4.3.1)
+      disabled: true
+    - name: agent
+      value: ""
+      type: query
+      description: ID контрагента-грузополучателя, в адрес которого осуществляется отгрузка. Указывается значение реквизита id объекта класса Agent (см. п. 4.1.2)
+      disabled: true
+    - name: start_operation_date
+      value: ""
+      type: query
+      description: "Начальная дата отгрузки по сопроводительному документу. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: end_operation_date
+      value: ""
+      type: query
+      description: "Конечная дата отгрузки по сопроводительному документу. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: start_received_date
+      value: ""
+      type: query
+      description: "Начальная дата приёмки. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: end_received_date
+      value: ""
+      type: query
+      description: "Конечная дата приёмки. Формат: YYYY-MM-DD"
+      disabled: true
+    - name: currency
+      value: ""
+      type: query
+      description: Валюта отгрузки. Код значения перечисления currency, полученного методом /directories/{:code} (см. п. 3.8.3; перечень значений приведен таблице 4.3.2)
+      disabled: true
+    - name: status
+      value: ""
+      type: query
+      description: Код (идентификатор) статуса отгрузки (перечень значений приведен таблице 4.2.6.2)
+      disabled: true
+    - name: group
+      value: ""
+      type: query
+      description: Товарная группа (перечень значений приведен таблице 4.2.1.2)
+      disabled: true
+    - name: search
+      value: ""
+      type: query
+      description: Номер отгрузки. ID отгрузки, по которому осуществляется поиск в списке
+      disabled: true
+    - name: cancel_by_admin
+      value: ""
+      type: query
+      description: "Признак выполнения операции отмены: False — отгрузка отклонена грузополучателем; True — отгрузка отменена Оператором"
+      disabled: true
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: "Постраничный перечень отгрузок. Примечание: в таблице 3.7.5.4 документа поле count (общее количество записей) отсутствует — приведены только next, previous, results"
+    request:
+      url: "{{baseUrl}}/v3/ships/shipped"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: page
+          value: "1"
+          type: query
+          description: Номер страницы перечня отгрузок
+        - name: page_size
+          value: "15"
+          type: query
+          description: Число записей на странице. Максимум — до 200, по умолчанию — до 15 на 1 страницу
+        - name: ordering
+          value: created_at
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: ordering
+          value: -created_at
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: ordering
+          value: id
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: ordering
+          value: -id
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: start_date
+          value: ""
+          type: query
+          description: "Начальная дата создания отгрузки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_date
+          value: ""
+          type: query
+          description: "Конечная дата создания отгрузки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: nomer_tn
+          value: ""
+          type: query
+          description: Номер сопроводительного документа, может также включать серию
+          disabled: true
+        - name: country
+          value: ""
+          type: query
+          description: Цифровой код страны. Код значения перечисления country, полученного методом /directories/{:code} (см. п. 3.8.3; перечень значений приведен таблице 4.3.1)
+          disabled: true
+        - name: agent
+          value: ""
+          type: query
+          description: ID контрагента-грузополучателя, в адрес которого осуществляется отгрузка. Указывается значение реквизита id объекта класса Agent (см. п. 4.1.2)
+          disabled: true
+        - name: start_operation_date
+          value: ""
+          type: query
+          description: "Начальная дата отгрузки по сопроводительному документу. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_operation_date
+          value: ""
+          type: query
+          description: "Конечная дата отгрузки по сопроводительному документу. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: start_received_date
+          value: ""
+          type: query
+          description: "Начальная дата приёмки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_received_date
+          value: ""
+          type: query
+          description: "Конечная дата приёмки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: currency
+          value: ""
+          type: query
+          description: Валюта отгрузки. Код значения перечисления currency, полученного методом /directories/{:code} (см. п. 3.8.3; перечень значений приведен таблице 4.3.2)
+          disabled: true
+        - name: status
+          value: ""
+          type: query
+          description: Код (идентификатор) статуса отгрузки (перечень значений приведен таблице 4.2.6.2)
+          disabled: true
+        - name: group
+          value: ""
+          type: query
+          description: Товарная группа (перечень значений приведен таблице 4.2.1.2)
+          disabled: true
+        - name: search
+          value: ""
+          type: query
+          description: Номер отгрузки. ID отгрузки, по которому осуществляется поиск в списке
+          disabled: true
+        - name: cancel_by_admin
+          value: ""
+          type: query
+          description: "Признак выполнения операции отмены: False — отгрузка отклонена грузополучателем; True — отгрузка отменена Оператором"
+          disabled: true
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "next": "http://api.datamark.by/v3/ships/shipped?country=643&end_date=2024-11-30&ordering=-created_at&page=2&page_size=15&start_date=2024-11-29",
+            "previous": null,
+            "results": [
+              {
+                "agent_id": 18413,
+                "agent_to": {
+                  "address": "ул. Милашенкова, д. 4 корп. 7, г. Москва",
+                  "country": "643",
+                  "gln": "4630019409950",
+                  "name": "ООО \"УНИВЕРСАЛ-ТРЕЙДИНГ\"",
+                  "unp": 274068089
+                },
+                "aggregate_count": 0,
+                "all_aggregates_count": 0,
+                "comment": "",
+                "contract_id": null,
+                "count": 5,
+                "country": {
+                  "code": "643",
+                  "name": "Россия"
+                },
+                "created_at": "2024-11-30T21:36:48.936364",
+                "currency": "rub643",
+                "files": {
+                  "destroy_aggregates": null,
+                  "labels_sent": "ship_id-2000040067-labels_sent-kYZhkh.csv"
+                },
+                "gtins_prices": null,
+                "id": 2000040067,
+                "items": [
+                  {
+                    "articul": null,
+                    "count": 5,
+                    "document_id": null,
+                    "group": "dietary_supplements",
+                    "gtin": 4812845008808,
+                    "name": "Биологически активные добавки (БАД)",
+                    "tnved": "3002490001"
+                  }
+                ],
+                "labels": [
+                  {
+                    "count": 12,
+                    "id": 7,
+                    "name": "Код стран ЕАЭС идентификации товара"
+                  },
+                  {
+                    "count": 0,
+                    "id": 6,
+                    "name": "Код агрегации (SSCC)"
+                  }
+                ],
+                "name": "БГ0100025",
+                "nds_sum": 0,
+                "operation_date": "2024-11-30",
+                "price": 10253.75,
+                "real_count": 5,
+                "reason": "regular",
+                "received_count": null,
+                "ship_id": "50bd16d8-22cf-4e2e-bde4-65b4281d677a",
+                "shipping_doc": {
+                  "code": "tnttn",
+                  "name": "ТН – товарная накладная"
+                },
+                "status": {
+                  "code": 17,
+                  "message": "Ожидает приемку"
+                },
+                "taked_at": null,
+                "updated_at": "2024-11-30T21:36:49.226942",
+                "user_info_from": {
+                  "address": "г. Минск,ул. Тимирязева, д.2, ком. 16",
+                  "country": "112",
+                  "gln": "4811612900000",
+                  "is_rules_agree": true,
+                  "name": "СООО \"Свиток\"",
+                  "unp": "190704463"
+                },
+                "user_info_to": null
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/ships/shipped"
+      method: GET
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+      params:
+        - name: page
+          value: "1"
+          type: query
+          description: Номер страницы перечня отгрузок
+        - name: page_size
+          value: "15"
+          type: query
+          description: Число записей на странице. Максимум — до 200, по умолчанию — до 15 на 1 страницу
+        - name: ordering
+          value: created_at
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: ordering
+          value: -created_at
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: ordering
+          value: id
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: ordering
+          value: -id
+          type: query
+          description: "Условия сортировки данных: created_at — по возрастанию даты и времени создания; -created_at — по убыванию даты и времени создания; id — по возрастанию номера (идентификатора) отгрузки; -id — по убыванию номера (идентификатора) отгрузки"
+          disabled: true
+        - name: start_date
+          value: ""
+          type: query
+          description: "Начальная дата создания отгрузки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_date
+          value: ""
+          type: query
+          description: "Конечная дата создания отгрузки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: nomer_tn
+          value: ""
+          type: query
+          description: Номер сопроводительного документа, может также включать серию
+          disabled: true
+        - name: country
+          value: ""
+          type: query
+          description: Цифровой код страны. Код значения перечисления country, полученного методом /directories/{:code} (см. п. 3.8.3; перечень значений приведен таблице 4.3.1)
+          disabled: true
+        - name: agent
+          value: ""
+          type: query
+          description: ID контрагента-грузополучателя, в адрес которого осуществляется отгрузка. Указывается значение реквизита id объекта класса Agent (см. п. 4.1.2)
+          disabled: true
+        - name: start_operation_date
+          value: ""
+          type: query
+          description: "Начальная дата отгрузки по сопроводительному документу. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_operation_date
+          value: ""
+          type: query
+          description: "Конечная дата отгрузки по сопроводительному документу. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: start_received_date
+          value: ""
+          type: query
+          description: "Начальная дата приёмки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: end_received_date
+          value: ""
+          type: query
+          description: "Конечная дата приёмки. Формат: YYYY-MM-DD"
+          disabled: true
+        - name: currency
+          value: ""
+          type: query
+          description: Валюта отгрузки. Код значения перечисления currency, полученного методом /directories/{:code} (см. п. 3.8.3; перечень значений приведен таблице 4.3.2)
+          disabled: true
+        - name: status
+          value: ""
+          type: query
+          description: Код (идентификатор) статуса отгрузки (перечень значений приведен таблице 4.2.6.2)
+          disabled: true
+        - name: group
+          value: ""
+          type: query
+          description: Товарная группа (перечень значений приведен таблице 4.2.1.2)
+          disabled: true
+        - name: search
+          value: ""
+          type: query
+          description: Номер отгрузки. ID отгрузки, по которому осуществляется поиск в списке
+          disabled: true
+        - name: cancel_by_admin
+          value: ""
+          type: query
+          description: "Признак выполнения операции отмены: False — отгрузка отклонена грузополучателем; True — отгрузка отменена Оператором"
+          disabled: true
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: Метод «Список отгрузок» (п. 3.7.5.2, Представление Б, версия v3), контекст грузоотправителя (отгрузка). Возвращает постраничный перечень отгрузок с отборами (фильтрами); сведения об отгрузках — объекты класса Ship (см. п. 4.1.7).

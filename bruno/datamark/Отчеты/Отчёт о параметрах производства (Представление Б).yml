@@ -1,0 +1,119 @@
+info:
+  name: Отчёт о параметрах производства (Представление Б)
+  type: http
+  seq: 21
+  tags:
+    - Отчеты
+
+http:
+  method: POST
+  url: "{{baseUrl}}/v3/reports/addManufacture"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response (Вариант 1. Отчёт о параметрах производства)
+    description: Успешное выполнение запроса
+    request:
+      url: "{{baseUrl}}/v3/reports/addManufacture"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "report_id": 3684,
+            "report_uid": "fcacc009-a2ac-49b8-9271-71669eefec21"
+          }
+  - name: 200 Response (Вариант 2. Отчёт о параметрах производства для товарной группы «Телефоны и машины вычислительные»)
+    description: Успешное выполнение запроса
+    request:
+      url: "{{baseUrl}}/v3/reports/addManufacture"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "report_id": 3684,
+            "report_uid": "fcacc009-a2ac-49b8-9271-71669eefec21"
+          }
+  - name: default Response (Вариант 1. Отчёт о параметрах производства)
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/reports/addManufacture"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+  - name: default Response (Вариант 2. Отчёт о параметрах производства для товарной группы «Телефоны и машины вычислительные»)
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v3/reports/addManufacture"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: Метод «Отчёт о параметрах производства» (п. 3.5.14). Для данного пути применяется Представление Б (п. 3.5.14.2, API версии v3). Альтернативное Представление А (п. 3.5.14.1, API версии v2) доступно по пути /v2/reports/addManufacture (только для товарных групп water и juice). В примерах Представления Б использованы товарные группы dietary_supplements и telephone («Телефоны и машины вычислительные»); для товарных групп, требующих дополнительные параметры, labels передается массивом объектов (см. oneOf в схеме labels и примеры).

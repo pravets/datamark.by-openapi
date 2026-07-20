@@ -1,0 +1,7 @@
+info:
+  name: Коды и знаки
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

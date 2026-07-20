@@ -1,0 +1,108 @@
+info:
+  name: Список контрагентов
+  type: http
+  seq: 3
+  tags:
+    - Контрагенты
+
+http:
+  method: POST
+  url: "{{baseUrl}}/contracts/agentsList"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: "Сведения о контрагентах. Примечание: в ответе возвращаются первые 500 записей, удовлетворяющих критериям отбора"
+    request:
+      url: "{{baseUrl}}/contracts/agentsList"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "agents_list": [
+              {
+                "address": "Республика Беларусь, г. Гродно, ул. Гаспадарчая, 28",
+                "country": {
+                  "code": "112",
+                  "comment": null,
+                  "name": "Беларусь"
+                },
+                "gln": "4810099900008",
+                "id": 9603,
+                "is_verified": true,
+                "name": "ОАО \"Молочный Мир\"",
+                "status": {
+                  "code": 1,
+                  "messaage": "Включен"
+                },
+                "unp": "500040357"
+              },
+              {
+                "address": "Гродненская область, г. Щучин, ул. 17 сентября, 45",
+                "country": {
+                  "code": "112",
+                  "comment": null,
+                  "name": "Беларусь"
+                },
+                "gln": "4810099900077",
+                "id": 18708,
+                "is_verified": true,
+                "name": "Щучинский филиал Открытое акционерное общество \"Молочный Мир\"",
+                "status": {
+                  "code": 1,
+                  "messaage": "Включен"
+                },
+                "unp": "500040357"
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка запроса. Коды ошибок и их описание приведены в таблице 5 (раздел 5 «Коды ошибок и их описание») Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/contracts/agentsList"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: "Метод «Список контрагентов» (п. 3.6.3). Возвращает сведения о контрагентах, удовлетворяющих критериям отбора. Примечание: в ответе возвращаются первые 500 записей, удовлетворяющих критериям отбора (пагинация в документе не предусмотрена)."

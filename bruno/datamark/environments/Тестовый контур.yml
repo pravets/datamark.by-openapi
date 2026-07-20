@@ -1,0 +1,4 @@
+name: Тестовый контур
+variables:
+  - name: baseUrl
+    value: https://sandbox-api.datamark.by

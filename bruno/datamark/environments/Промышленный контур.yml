@@ -1,0 +1,4 @@
+name: Промышленный контур
+variables:
+  - name: baseUrl
+    value: https://api.datamark.by

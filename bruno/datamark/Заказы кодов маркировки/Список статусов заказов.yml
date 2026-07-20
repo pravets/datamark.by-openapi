@@ -1,0 +1,114 @@
+info:
+  name: Список статусов заказов
+  type: http
+  seq: 6
+  tags:
+    - Заказы кодов маркировки
+
+http:
+  method: POST
+  url: "{{baseUrl}}/v2/orders/statusList"
+  headers:
+    - name: Token
+      value: "{{apiKey}}"
+      description: Токен авторизации, возвращаемый методом /auth
+  auth:
+    type: apikey
+    key: Token
+    value: "{{apiKey}}"
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Успешное выполнение запроса — перечень заказов и их статусов
+    request:
+      url: "{{baseUrl}}/v2/orders/statusList"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "orders_list": [
+              {
+                "completed_at": "2020-12-15 10:04:03.258072+03",
+                "count": 20,
+                "created_at": "2020-12-15 10:03:00+03",
+                "gtin": 4810268024894,
+                "id": 250879,
+                "status": {
+                  "code": 30,
+                  "message": "Выполнен"
+                },
+                "type": {
+                  "digits_count": null,
+                  "id": 12,
+                  "is_autotake": false,
+                  "is_bso": false,
+                  "letters_count": null,
+                  "method": "nobsomilk",
+                  "name": "Код РБ идентификации молочной продукции"
+                }
+              },
+              {
+                "completed_at": null,
+                "count": 23,
+                "created_at": "2020-12-15 10:03:00+03",
+                "gtin": 4810263033525,
+                "id": 250878,
+                "status": {
+                  "code": 35,
+                  "message": "Отклонен"
+                },
+                "type": {
+                  "digits_count": null,
+                  "id": 12,
+                  "is_autotake": false,
+                  "is_bso": false,
+                  "letters_count": null,
+                  "method": "nobsomilk",
+                  "name": "Код РБ идентификации молочной продукции"
+                }
+              }
+            ]
+          }
+  - name: default Response
+    description: Ошибка выполнения запроса Ошибка выполнения запроса (HTTP 4XX). Тело ответа — единая схема ErrorResponse.
+    request:
+      url: "{{baseUrl}}/v2/orders/statusList"
+      method: POST
+      headers:
+        - name: Token
+          value: "{{apiKey}}"
+          description: Токен авторизации, возвращаемый методом /auth
+    response:
+      headers:
+        - name: Content-Type
+          value: application/json; charset=utf-8
+      body:
+        type: text
+        data: |-
+          {
+            "details": [
+              "Field ... must be ..."
+            ],
+            "error": 400,
+            "message": "Input parameters validation error"
+          }
+
+docs: Метод «Список статусов заказов» (п. 3.3.5).
