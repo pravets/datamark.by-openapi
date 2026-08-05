@@ -1,0 +1,4 @@
+.venv/
+generate_1c_samples.py
+__pycache__/
+*.pyc
